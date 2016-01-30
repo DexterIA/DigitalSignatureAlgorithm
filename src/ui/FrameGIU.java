@@ -1,9 +1,14 @@
 package ui;
 
+import main.DSA;
+import main.Session;
+import utils.Pair;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigInteger;
 
 public class FrameGIU extends JFrame {
 
@@ -35,19 +40,36 @@ public class FrameGIU extends JFrame {
         signTab.setLayout(null);
         verifyTab.setLayout(null);
 
-        JLabel signMessageLabel = new JLabel("Message to sign");
+        final JLabel signMessageLabel = new JLabel("Message to sign");
         JLabel verifyMessageLabel = new JLabel("Message to verify");
 
         signTextFieldMessage = new JTextField(60);
         verifyTextFieldMessage = new JTextField(60);
 
         signButton = new JButton("Generate keys");
-        final boolean btnEnabled = true;
         signButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 signButton.setEnabled(false);
-                signButton.setText("Please wait...");
+                Session session = Session.getInstance(false);
+                Pair<BigInteger, BigInteger> privateKeys = session.getPrivateKey();
+                signKeyGTextField.setText(session.getGlobalKeyG().toString());
+                signKeyPTextField.setText(session.getGlobalKeyP().toString());
+                signKeyQTextField.setText(session.getGlobalKeyQ().toString());
+                signTextFieldPrivateX.setText(privateKeys.getFirst().toString());
+                signTextFieldPrivateY.setText(privateKeys.getSecond().toString());
+                if (signTextFieldMessage.getText().length() != 0) {
+                    Pair<BigInteger, BigInteger> signature = DSA.sign(false, signTextFieldMessage.getText(), session.getGlobalKeyG(),
+                            session.getGlobalKeyP(), session.getGlobalKeyQ(), privateKeys.getFirst());
+                    signTextFieldSignatureR.setText(signature.getFirst().toString());
+                    signTextFieldSignatureS.setText(signature.getSecond().toString());
+                } else {
+                    JOptionPane.showMessageDialog(null,
+                            "To create signature keys need message to be not empty!",
+                            "Empty message",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+                signButton.setEnabled(true);
             }
         });
         JButton verifyButton = new JButton("Check signature");
@@ -67,20 +89,20 @@ public class FrameGIU extends JFrame {
         JLabel verifyLabelSignatureR = new JLabel("Signature key R");
         JLabel verifyLabelSignatureS = new JLabel("Signature key S");
 
-        signKeyQTextField = new JTextField(85);
-        signKeyPTextField = new JTextField(85);
-        signKeyGTextField = new JTextField(85);
-        signTextFieldPrivateX = new JTextField(85);
-        signTextFieldPrivateY = new JTextField(85);
-        signTextFieldSignatureR = new JTextField(85);
-        signTextFieldSignatureS = new JTextField(85);
+        signKeyQTextField = new JTextField(100);
+        signKeyPTextField = new JTextField(100);
+        signKeyGTextField = new JTextField(100);
+        signTextFieldPrivateX = new JTextField(100);
+        signTextFieldPrivateY = new JTextField(100);
+        signTextFieldSignatureR = new JTextField(100);
+        signTextFieldSignatureS = new JTextField(100);
 
-        verifyKeyQTextField = new JTextField(85);
-        verifyKeyPTextField = new JTextField(85);
-        verifyKeyGTextField = new JTextField(85);
-        verifyTextFieldPrivateY = new JTextField(85);
-        verifyTextFieldSignatureR = new JTextField(85);
-        verifyTextFieldSignatureS = new JTextField(85);
+        verifyKeyQTextField = new JTextField(100);
+        verifyKeyPTextField = new JTextField(100);
+        verifyKeyGTextField = new JTextField(100);
+        verifyTextFieldPrivateY = new JTextField(100);
+        verifyTextFieldSignatureR = new JTextField(100);
+        verifyTextFieldSignatureS = new JTextField(100);
 
         signTab.add(signMessageLabel);
         verifyTab.add(verifyMessageLabel);
@@ -230,7 +252,7 @@ public class FrameGIU extends JFrame {
 
         getContentPane().add(content);
         setResizable(false);
-        setPreferredSize(new Dimension(1100, 500));
+        setPreferredSize(new Dimension(1250, 500));
         pack();
         setLocationRelativeTo(null);
         setVisible(true);

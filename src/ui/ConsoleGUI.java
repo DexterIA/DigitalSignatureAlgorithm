@@ -57,7 +57,7 @@ public class ConsoleGUI {
 				e.printStackTrace();
 			}
 		}
-		Pair<BigInteger, BigInteger> signature = DSA.sign(text, session.getGlobalKeyG(), session.getGlobalKeyP(),
+		Pair<BigInteger, BigInteger> signature = DSA.sign(true, text, session.getGlobalKeyG(), session.getGlobalKeyP(),
 				session.getGlobalKeyQ(), privateKeys.getFirst());
 		System.out.println("Signature (r,s): (" + signature.getFirst() + ", "
 				+ signature.getSecond() + ")");
@@ -132,7 +132,7 @@ public class ConsoleGUI {
 		BigInteger y = getElement();
 
 		System.out.println("");
-		Boolean res = DSA.verify(text, r, s, g, p, q, y);
+		Boolean res = DSA.verify(true, text, r, s, g, p, q, y);
 		
 		System.out.println("=== VERIFICATION STATUS ===");
 		if (res) {

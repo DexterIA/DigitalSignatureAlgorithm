@@ -10,9 +10,9 @@ public class Session {
 
 	private static Session session;
 	private static boolean debug;
-	private BigInteger globalKeyP;
-	private BigInteger globalKeyQ;
-	private BigInteger globalKeyG;
+	public  BigInteger globalKeyP;
+	public BigInteger globalKeyQ;
+	public BigInteger globalKeyG;
 	private static int L = 512;
 
 	public static Session getInstance(boolean debugMode) {
@@ -63,10 +63,10 @@ public class Session {
 				&& tempg.compareTo(BigInteger.ONE) != 1);
 		globalKeyG = tempg.modPow(exp, p);
 		debugMode("[OK]", true);
-		System.out.println("");
-		System.out.println("Q: " + globalKeyQ);
-		System.out.println("P: " + globalKeyP);
-		System.out.println("G: " + globalKeyG);
+		debugMode("", true);
+		debugMode("Q: " + globalKeyQ, true);
+		debugMode("P: " + globalKeyP, true);
+		debugMode("G: " + globalKeyG, true);
 	}
 
 	public BigInteger getGlobalKeyP() {

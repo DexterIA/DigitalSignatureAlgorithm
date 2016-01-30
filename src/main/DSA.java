@@ -9,8 +9,11 @@ import java.security.SecureRandom;
 
 public class DSA {
 
-    public static Pair<BigInteger, BigInteger> sign(String message, BigInteger publcG, BigInteger publicP,
+    public static boolean debug = true;
+
+    public static Pair<BigInteger, BigInteger> sign(boolean d, String message, BigInteger publcG, BigInteger publicP,
                                                     BigInteger publicQ, BigInteger privateX) {
+        debug = d;
         debugMode("=== CREATING SIGNATURE ===", true);
 
         // K
@@ -42,8 +45,9 @@ public class DSA {
         return new Pair<BigInteger, BigInteger>(r, s);
     }
 
-    public static Boolean verify(String message, BigInteger r, BigInteger s, BigInteger publcG, BigInteger publicP,
+    public static Boolean verify(boolean d, String message, BigInteger r, BigInteger s, BigInteger publcG, BigInteger publicP,
                                  BigInteger publicQ, BigInteger privateY) {
+        debug = d;
         debugMode("=== VERIFYING SIGNATURE ===", true);
         MessageDigest md;
         BigInteger v = BigInteger.ZERO;
@@ -65,17 +69,19 @@ public class DSA {
                     publicP))).mod(publicP)).mod(publicQ);
             debugMode("[OK]", true);
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            debugMode(ex.getMessage(), true);
         }
 
         return v.compareTo(r) == 0;
     }
 
     private static void debugMode(String s, boolean ln) {
-        if (ln) {
-            System.out.println(s);
-        } else {
-            System.out.print(s);
+        if (debug) {
+            if (ln) {
+                System.out.println(s);
+            } else {
+                System.out.print(s);
+            }
         }
     }
 
