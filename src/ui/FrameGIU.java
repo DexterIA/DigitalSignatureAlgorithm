@@ -79,6 +79,51 @@ public class FrameGIU extends JFrame {
             }
         });
         JButton verifyButton = new JButton("Check signature");
+        verifyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (verifyKeyGTextField.getText().length() == 0 ||
+                        verifyKeyPTextField.getText().length() == 0 ||
+                        verifyKeyQTextField.getText().length() == 0 ||
+                        verifyTextFieldMessage.getText().length() == 0 ||
+                        verifyTextFieldPrivateY.getText().length() == 0 ||
+                        verifyTextFieldSignatureR.getText().length() == 0 ||
+                        verifyTextFieldSignatureS.getText().length() == 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "All fields required!",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                } else {
+                    BigInteger r, s, g, p, q, y;
+                    Boolean res = false;
+                    try {
+                        r = new BigInteger(verifyTextFieldSignatureR.getText(), 10);
+                        s = new BigInteger(verifyTextFieldSignatureS.getText(), 10);
+                        g = new BigInteger(verifyKeyGTextField.getText(), 10);
+                        p = new BigInteger(verifyKeyPTextField.getText(), 10);
+                        q = new BigInteger(verifyKeyQTextField.getText(), 10);
+                        y = new BigInteger(verifyTextFieldPrivateY.getText(), 10);
+                        res = DSA.verify(false, verifyTextFieldMessage.getText(), r, s, g, p, q, y);
+                    } catch (Exception event) {
+                        JOptionPane.showMessageDialog(null,
+                                event.getMessage(),
+                                "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (res) {
+                        JOptionPane.showMessageDialog(null,
+                                "Approved! :)",
+                                "Success!",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null,
+                                "Failed! (Hope is not my fault)",
+                                "Failed!",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                }
+            }
+        });
 
         JLabel signLabelKeyQ = new JLabel("Global key Q");
         JLabel signLabelKeyP = new JLabel("Global key P");
