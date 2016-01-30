@@ -1,2 +1,0 @@
-# DigitalSignatureAlgorithm
-Digital signature algorithm
