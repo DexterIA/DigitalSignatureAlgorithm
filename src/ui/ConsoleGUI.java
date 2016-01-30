@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 
-public class UI {
+public class ConsoleGUI {
 
 	public static void main(String[] args) {
 
