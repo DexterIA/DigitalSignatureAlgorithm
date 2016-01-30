@@ -51,25 +51,31 @@ public class FrameGIU extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 signButton.setEnabled(false);
-                Session session = Session.getInstance(false);
-                Pair<BigInteger, BigInteger> privateKeys = session.getPrivateKey();
-                signKeyGTextField.setText(session.getGlobalKeyG().toString());
-                signKeyPTextField.setText(session.getGlobalKeyP().toString());
-                signKeyQTextField.setText(session.getGlobalKeyQ().toString());
-                signTextFieldPrivateX.setText(privateKeys.getFirst().toString());
-                signTextFieldPrivateY.setText(privateKeys.getSecond().toString());
-                if (signTextFieldMessage.getText().length() != 0) {
-                    Pair<BigInteger, BigInteger> signature = DSA.sign(false, signTextFieldMessage.getText(), session.getGlobalKeyG(),
-                            session.getGlobalKeyP(), session.getGlobalKeyQ(), privateKeys.getFirst());
-                    signTextFieldSignatureR.setText(signature.getFirst().toString());
-                    signTextFieldSignatureS.setText(signature.getSecond().toString());
-                } else {
-                    JOptionPane.showMessageDialog(null,
-                            "To create signature keys need message to be not empty!",
-                            "Empty message",
-                            JOptionPane.ERROR_MESSAGE);
-                }
-                signButton.setEnabled(true);
+                signButton.setText("Please wait...");
+                new Thread(){
+                    public void run(){
+                        Session session = Session.getInstance(false);
+                        Pair<BigInteger, BigInteger> privateKeys = session.getPrivateKey();
+                        signKeyGTextField.setText(session.getGlobalKeyG().toString());
+                        signKeyPTextField.setText(session.getGlobalKeyP().toString());
+                        signKeyQTextField.setText(session.getGlobalKeyQ().toString());
+                        signTextFieldPrivateX.setText(privateKeys.getFirst().toString());
+                        signTextFieldPrivateY.setText(privateKeys.getSecond().toString());
+                        if (signTextFieldMessage.getText().length() != 0) {
+                            Pair<BigInteger, BigInteger> signature = DSA.sign(false, signTextFieldMessage.getText(), session.getGlobalKeyG(),
+                                    session.getGlobalKeyP(), session.getGlobalKeyQ(), privateKeys.getFirst());
+                            signTextFieldSignatureR.setText(signature.getFirst().toString());
+                            signTextFieldSignatureS.setText(signature.getSecond().toString());
+                        } else {
+                            JOptionPane.showMessageDialog(null,
+                                    "To create signature keys need message to be not empty!",
+                                    "Empty message",
+                                    JOptionPane.ERROR_MESSAGE);
+                        }
+                        signButton.setEnabled(true);
+                        signButton.setText("Generate keys");
+                    }
+                }.start();
             }
         });
         JButton verifyButton = new JButton("Check signature");
