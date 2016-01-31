@@ -10,14 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigInteger;
 
-public class FrameGIU extends JFrame {
+public class FrameGUI extends JFrame {
 
     public JTextField signTextFieldMessage, verifyTextFieldMessage, signKeyQTextField, signKeyPTextField,
             signKeyGTextField, signTextFieldPrivateX, signTextFieldPrivateY, signTextFieldSignatureR, signTextFieldSignatureS,
             verifyKeyQTextField, verifyKeyGTextField, verifyKeyPTextField, verifyTextFieldPrivateY, verifyTextFieldSignatureR, verifyTextFieldSignatureS;
     public JButton signButton;
 
-    public FrameGIU() {
+    public FrameGUI() {
 
         super("Digital signature algorithm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -313,7 +313,7 @@ public class FrameGIU extends JFrame {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 JFrame.setDefaultLookAndFeelDecorated(true);
-                new FrameGIU();
+                new FrameGUI();
             }
         });
     }
