@@ -129,14 +129,14 @@ public class FrameGUI extends JFrame {
         JLabel signLabelKeyP = new JLabel("Global key P");
         JLabel signLabelKeyG = new JLabel("Global key G");
         JLabel signLabelPrivateX = new JLabel("Private key X");
-        JLabel signLabelPrivateY = new JLabel("Private key Y");
+        JLabel signLabelPrivateY = new JLabel("Public key Y");
         JLabel signLabelSignatureR = new JLabel("Signature key R");
         JLabel signLabelSignatureS = new JLabel("Signature key S");
 
         JLabel verifyLabelKeyQ = new JLabel("Global key Q");
         JLabel verifyLabelKeyP = new JLabel("Global key P");
         JLabel verifyLabelKeyG = new JLabel("Global key G");
-        JLabel verifyLabelPrivateY = new JLabel("Private key Y");
+        JLabel verifyLabelPrivateY = new JLabel("Public key Y");
         JLabel verifyLabelSignatureR = new JLabel("Signature key R");
         JLabel verifyLabelSignatureS = new JLabel("Signature key S");
 
